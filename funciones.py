@@ -47,14 +47,24 @@ def repartir_cartas(cartas_iniciales,repeticiones):
       repeticiones
     Returns:
       combinaciones: ej. {'repeticion1': ['contable', 'alguacil', 'asesino', 'cardenal', 'obispo']}
-    """    
+    """  
+
+    # La lista cartas_aleatorias se declara de tal forma que es un puntero a cartas_iniciales
+    # por lo que al remover un elemento de una, se remueve también de otra.
+    # Intenté resolverlo añadiendo manualmente, con append(), los elementos de una lista en otra
+    
     combinaciones={}
     for i in range(1,repeticiones+1):
-        cartas_aleatorias = cartas_iniciales 
-        combinaciones["repeticion"+str(i)]=[]
-        for j in range(0,5):
-            carta=random.choice(cartas_aleatorias)
-            combinaciones["repeticion"+str(i)].append(carta)
-            cartas_aleatorias.remove(carta)
+
+      cartas_aleatorias = []
+      for j in range(len(cartas_iniciales)):
+        cartas_aleatorias.append(cartas_iniciales[j])
+
+      combinaciones["repeticion"+str(i)]=[]
+
+      for j in range(0,5):
+          carta=random.choice(cartas_aleatorias)
+          combinaciones["repeticion"+str(i)].append(carta)
+          cartas_aleatorias.remove(carta)
 
     return combinaciones
