@@ -1,4 +1,5 @@
 from fileinput import filename
+from operator import iadd
 import random
 import string
 
@@ -10,7 +11,7 @@ def choose_secret(filename):
     Returns:
       secret: Palabra elegida aleatoriamente del fichero transformada a mayúsculas. Ej. "CREMA"
     """
-    f = open(filename)
+    f = open(filename, "r")
     print(random.randint(0, 31))
     secret = f.readline(random.randint(0, 31))
     print(secret)
@@ -30,13 +31,15 @@ def compare_words(word, secret):
     same_letter = []
 
     for i in range(len(word)):
-      for j in range(secret):
+      for j in range(len(secret)):
         if word[i] == secret[j]:
           if i == j:
             same_position.append(i)
           else:
             same_letter.append(i)
     
+    print(same_letter, same_position)
+
     return same_position, same_letter
 
 def print_word(word, same_letter_position, same_letter):
@@ -48,15 +51,17 @@ def print_word(word, same_letter_position, same_letter):
     Returns:
       transformed: La palabra aplicando las transformaciones. En el caso anterior: "Cam--"
     """
-
-    #for i in range(word):
-
+    for i in range(len(word)):
+      if same_letter_position.index(word[i]) == ValueError:
+        word[i] = "-"
 
     for i in range(len(same_letter_position)):
       word.replace(word[same_letter_position[i]], word[same_letter_position[i]].isupper())
 
     for i in range(len(same_position)):
       word.replace(word[same_letter_position[i]], word[same_letter_position[i]].lower())
+
+    return word
 
     
 
@@ -83,8 +88,8 @@ if __name__ == "__main__":
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
     for repeticiones in range(0,6):
         word = input("Introduce una nueva palabra: ")
-        same_position, same_letter = compare_words()
-        resultado=print_word()
+        same_position, same_letter = compare_words(word, secret)
+        resultado=print_word(word, same_position, same_letter)
         print(resultado)
         if word == secret:
             print("HAS GANADO!!")
