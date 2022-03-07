@@ -58,5 +58,3 @@ def repartir_cartas(cartas_iniciales,repeticiones):
             cartas_aleatorias.remove(carta)
 
     return combinaciones
-
-    
